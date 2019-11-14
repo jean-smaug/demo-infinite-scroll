@@ -15,9 +15,9 @@ const observer = new IntersectionObserver(function(entries) {
             
             const image = clonedTemplate.querySelector("img")
             image.src = getImageUrl({ width: 400, height: 250 })
-            image.addEventListener("load", function() {
+            image.onload = function() {
                 clonedTemplate.removeChild(clonedTemplate.querySelector(".spinner"))
-            })
+            }
 
             main.append(clonedTemplate)
             observer.unobserve(observedElement)

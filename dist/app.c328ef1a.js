@@ -120,28 +120,55 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"app.js":[function(require,module,exports) {
 var main = document.querySelector("main");
 var template = document.getElementById("template");
-var image = template.querySelector("img");
-var url = "https://picsum.photos/300/200";
+template.removeAttribute("id");
 var observedElement = template;
-window.addEventListener("load", function () {
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        var clonedTemplate = template.cloneNode(true);
-        clonedTemplate.style.background = "blue";
-        clonedTemplate.querySelector("img").src = url;
-        main.append(clonedTemplate);
-        observer.unobserve(observedElement);
-        observedElement = clonedTemplate;
-        observer.observe(clonedTemplate);
-        setTimeout(function () {
-          entry.target.style.background = "red";
-        }, 2000);
-      }
-    });
+
+function getRandom() {
+  return Math.floor(Math.random() * 1000);
+}
+
+function getDimensions(_ref) {
+  var minWidth = _ref.minWidth,
+      maxWidth = _ref.maxWidth,
+      minHeight = _ref.minHeight,
+      maxHeight = _ref.maxHeight;
+  var dimensions = {
+    width: getRandom(),
+    height: getRandom()
+  };
+  if (dimensions.width > minWidth && dimensions.height > minHeight && dimensions.width < maxWidth && dimensions.height < maxHeight) return dimensions;
+  return getDimensions({
+    minWidth: minWidth,
+    maxWidth: maxWidth,
+    minHeight: minHeight,
+    maxHeight: maxHeight
   });
-  observer.observe(observedElement);
+}
+
+function getImageUrl(_ref2) {
+  var width = _ref2.width,
+      height = _ref2.height;
+  return "https://picsum.photos/".concat(width, "/").concat(height);
+}
+
+var observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      var clonedTemplate = template.cloneNode(true);
+      clonedTemplate.querySelector("img").src = getImageUrl(getDimensions({
+        minWidth: 200,
+        maxWidth: 500,
+        minHeight: 150,
+        maxHeight: 400
+      }));
+      main.append(clonedTemplate);
+      observer.unobserve(observedElement);
+      observedElement = clonedTemplate;
+      observer.observe(clonedTemplate);
+    }
+  });
 });
+observer.observe(observedElement);
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

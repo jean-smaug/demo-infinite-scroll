@@ -1,34 +1,48 @@
+
 const main = document.querySelector("main")
 const template = document.getElementById("template")
 
-const image = template.querySelector("img")
-
-const url = "https://picsum.photos/300/200"
+template.removeAttribute("id")
 
 let observedElement = template;
 
-window.addEventListener("load", function() {    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if(entry.isIntersecting) {
-                const clonedTemplate = template.cloneNode(true)
-                clonedTemplate.style.background = "blue"
-                clonedTemplate.querySelector("img").src = url
+function getRandom() {
+    return Math.floor(Math.random() * 1000)
+}
 
-                main.append(clonedTemplate)
 
-                observer.unobserve(observedElement)
-                
-                observedElement = clonedTemplate
+function getDimensions({ minWidth, maxWidth, minHeight, maxHeight }) {
+    const dimensions = { width: getRandom(), height: getRandom() }
 
-                observer.observe(clonedTemplate)
+    if(
+        dimensions.width > minWidth
+        && dimensions.height > minHeight
+        && dimensions.width < maxWidth
+        && dimensions.height < maxHeight
+    ) return dimensions
 
-                setTimeout(function() {
-                    entry.target.style.background = "red"
-                }, 2000)
-            }
-        })
+    return getDimensions({ minWidth, maxWidth, minHeight, maxHeight })
+}
+
+function getImageUrl({ width, height }) {
+    return `https://picsum.photos/${width}/${height}`
+}
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            const clonedTemplate = template.cloneNode(true)
+            clonedTemplate.querySelector("img").src = getImageUrl(getDimensions({ minWidth: 200, maxWidth: 500, minHeight: 150, maxHeight: 400 }))
+
+            main.append(clonedTemplate)
+
+            observer.unobserve(observedElement)
+            
+            observedElement = clonedTemplate
+
+            observer.observe(clonedTemplate)
+        }
     })
-    
-    observer.observe(observedElement)
 })
+
+observer.observe(observedElement)

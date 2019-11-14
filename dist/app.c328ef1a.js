@@ -127,8 +127,9 @@ window.addEventListener("load", function () {
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        var clonedTemplate = template.cloneNode();
+        var clonedTemplate = template.cloneNode(true);
         clonedTemplate.style.background = "blue";
+        clonedTemplate.querySelector("img").src = url;
         main.append(clonedTemplate);
         observer.unobserve(observedElement);
         observedElement = clonedTemplate;
@@ -169,7 +170,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41243" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35933" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

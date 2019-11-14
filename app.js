@@ -11,8 +11,9 @@ window.addEventListener("load", function() {
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if(entry.isIntersecting) {
-                const clonedTemplate = template.cloneNode()
+                const clonedTemplate = template.cloneNode(true)
                 clonedTemplate.style.background = "blue"
+                clonedTemplate.querySelector("img").src = url
 
                 main.append(clonedTemplate)
 

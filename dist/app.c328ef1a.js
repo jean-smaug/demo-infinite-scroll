@@ -120,47 +120,23 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"app.js":[function(require,module,exports) {
 var main = document.querySelector("main");
 var template = document.getElementById("template");
-template.removeAttribute("id");
 var observedElement = template;
 
-function getRandom() {
-  return Math.floor(Math.random() * 1000);
-}
-
-function getDimensions(_ref) {
-  var minWidth = _ref.minWidth,
-      maxWidth = _ref.maxWidth,
-      minHeight = _ref.minHeight,
-      maxHeight = _ref.maxHeight;
-  var dimensions = {
-    width: getRandom(),
-    height: getRandom()
-  };
-  if (dimensions.width > minWidth && dimensions.height > minHeight && dimensions.width < maxWidth && dimensions.height < maxHeight) return dimensions;
-  return getDimensions({
-    minWidth: minWidth,
-    maxWidth: maxWidth,
-    minHeight: minHeight,
-    maxHeight: maxHeight
-  });
-}
-
-function getImageUrl(_ref2) {
-  var width = _ref2.width,
-      height = _ref2.height;
-  return "https://picsum.photos/".concat(width, "/").concat(height);
+function getImageUrl(_ref) {
+  var width = _ref.width,
+      height = _ref.height;
+  return "https://picsum.photos/".concat(width, "/").concat(height, "?nocache=").concat(performance.now());
 }
 
 var observer = new IntersectionObserver(function (entries) {
   entries.forEach(function (entry) {
     if (entry.isIntersecting) {
       var clonedTemplate = template.cloneNode(true);
-      clonedTemplate.querySelector("img").src = getImageUrl(getDimensions({
-        minWidth: 200,
-        maxWidth: 500,
-        minHeight: 150,
-        maxHeight: 400
-      }));
+      clonedTemplate.querySelector("img").src = getImageUrl({
+        width: 400,
+        height: 250
+      });
+      clonedTemplate.removeAttribute("id");
       main.append(clonedTemplate);
       observer.unobserve(observedElement);
       observedElement = clonedTemplate;

@@ -5,21 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Demo intersection observer</title>
+    <link rel="stylesheet" href="./spinner.css">
     <style>
       #template {
         height: 0;
+        visibility: hidden;
       }
 
-      div {
+      .template {
         width: 400px;
+        height: 250px;
         margin: auto;
+        position: relative;
+      }
+      .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     </style>
   </head>
   <body>
     <main>
-      <div id="template">
-        <img />
+      <div id="template" class="template">
+        <div class="spinner lds-dual-ring"></div>
+        <img height="250" width="400" />
       </div>
     </main>
 

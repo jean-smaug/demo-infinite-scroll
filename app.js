@@ -1,7 +1,6 @@
 const main = document.querySelector("main")
 const template = document.getElementById("template")
 
-
 let observedElement = template;
 
 function getImageUrl({ width, height }) {

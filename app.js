@@ -11,12 +11,21 @@ const observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if(entry.isIntersecting) {
             const clonedTemplate = template.cloneNode(true)
+            const image = clonedTemplate.querySelector("img")
+            const spinner = clonedTemplate.querySelector(".lds-dual-ring")
+            const errorMessage = clonedTemplate.querySelector("span")
+            
             clonedTemplate.removeAttribute("id")
             
-            const image = clonedTemplate.querySelector("img")
-            image.src = getImageUrl({ width: 400, height: 250 })
+            image.src = getImageUrl({ width: image.width, height: image.height })
             image.onload = function() {
-                clonedTemplate.removeChild(clonedTemplate.querySelector(".spinner"))
+                clonedTemplate.removeChild(spinner)
+            }
+
+            image.onerror = function() {
+                clonedTemplate.removeChild(spinner)
+                clonedTemplate.removeChild(image)
+                errorMessage.className = "center error-message"
             }
 
             main.append(clonedTemplate)

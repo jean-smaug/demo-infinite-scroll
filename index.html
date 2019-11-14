@@ -12,25 +12,38 @@
         visibility: hidden;
       }
 
-      .template {
+      .picture {
         width: 400px;
         height: 250px;
         margin: 10px auto;
         position: relative;
       }
 
-      .spinner {
+      .center {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
       }
+
+      .hidden {
+        visibility: hidden;
+        display: none;
+      }
+
+      .error-message {
+        text-align: center;
+        font-size: 2rem;
+        font-family: sans-serif;
+        width: 80%;
+      }
     </style>
   </head>
   <body>
     <main>
-      <div id="template" class="template">
-        <div class="spinner lds-dual-ring"></div>
+      <div id="template" class="picture">
+        <div class="center lds-dual-ring"></div>
+        <span class="hidden">L'image n'a pas pu être chargée</span>
         <img height="250" width="400" />
       </div>
     </main>

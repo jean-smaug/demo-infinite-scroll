@@ -12,8 +12,13 @@ const observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if(entry.isIntersecting) {
             const clonedTemplate = template.cloneNode(true)
-            clonedTemplate.querySelector("img").src = getImageUrl({ width: 400, height: 250 })
             clonedTemplate.removeAttribute("id")
+            
+            const image = clonedTemplate.querySelector("img")
+            image.src = getImageUrl({ width: 400, height: 250 })
+            image.addEventListener("load", function() {
+                clonedTemplate.removeChild(clonedTemplate.querySelector(".spinner"))
+            })
 
             main.append(clonedTemplate)
             observer.unobserve(observedElement)

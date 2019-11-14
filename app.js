@@ -16,7 +16,7 @@ const observer = new IntersectionObserver(function(entries) {
             const errorMessage = clonedTemplate.querySelector("span")
             
             clonedTemplate.removeAttribute("id")
-            
+
             image.src = getImageUrl({ width: image.width, height: image.height })
             image.onload = function() {
                 clonedTemplate.removeChild(spinner)
@@ -26,6 +26,10 @@ const observer = new IntersectionObserver(function(entries) {
                 clonedTemplate.removeChild(spinner)
                 clonedTemplate.removeChild(image)
                 errorMessage.className = "center error-message"
+
+                setTimeout(function () {
+                    main.removeChild(clonedTemplate)
+                }, 5000)
             }
 
             main.append(clonedTemplate)

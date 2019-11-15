@@ -1,43 +1,56 @@
 const main = document.querySelector("main")
-const template = document.getElementById("template")
+const template = document.querySelector("template").content.querySelector("div")
 
-let observedElement = template;
-
-function getImageUrl({ width, height }) {
+function getImageUrl({
+    width,
+    height
+}) {
     return `https://picsum.photos/${width}/${height}?nocache=${performance.now()}`
 }
 
-const observer = new IntersectionObserver(function(entries) {
+function renderPicture() {
+    const picture = template.cloneNode(true)
+    const image = picture.querySelector("img")
+    const spinner = picture.querySelector(".lds-dual-ring")
+    const errorMessage = picture.querySelector("span")
+
+    image.src = getImageUrl({
+        width: image.width,
+        height: image.height
+    })
+    image.onload = function () {
+        picture.removeChild(spinner)
+    }
+
+    image.onerror = function () {
+        picture.removeChild(spinner)
+        picture.removeChild(image)
+        errorMessage.className = "center error-message"
+
+        setTimeout(function () {
+            main.removeChild(picture)
+        }, 5000)
+    }
+
+    return picture
+}
+
+const initialPicture = renderPicture()
+let observedElement = initialPicture;
+
+const observer = new IntersectionObserver(function (entries) {
     entries.forEach(entry => {
-        if(entry.isIntersecting) {
-            const clonedTemplate = template.cloneNode(true)
-            const image = clonedTemplate.querySelector("img")
-            const spinner = clonedTemplate.querySelector(".lds-dual-ring")
-            const errorMessage = clonedTemplate.querySelector("span")
-            
-            clonedTemplate.removeAttribute("id")
+        if (entry.isIntersecting) {
+            const picture = renderPicture()
 
-            image.src = getImageUrl({ width: image.width, height: image.height })
-            image.onload = function() {
-                clonedTemplate.removeChild(spinner)
-            }
-
-            image.onerror = function() {
-                clonedTemplate.removeChild(spinner)
-                clonedTemplate.removeChild(image)
-                errorMessage.className = "center error-message"
-
-                setTimeout(function () {
-                    main.removeChild(clonedTemplate)
-                }, 5000)
-            }
-
-            main.append(clonedTemplate)
             observer.unobserve(observedElement)
-            observedElement = clonedTemplate
-            observer.observe(clonedTemplate)
+            observedElement = picture
+
+            main.append(picture)
+            observer.observe(observedElement)
         }
     })
 })
 
+main.appendChild(initialPicture)
 observer.observe(observedElement)

@@ -7,11 +7,6 @@
     <title>Demo intersection observer</title>
     <link rel="stylesheet" href="./spinner.css">
     <style>
-      #template {
-        height: 0;
-        visibility: hidden;
-      }
-
       .picture {
         width: 400px;
         height: 250px;
@@ -40,13 +35,15 @@
     </style>
   </head>
   <body>
-    <main>
-      <div id="template" class="picture">
+    <template>
+      <div class="picture">
         <div class="center lds-dual-ring"></div>
         <span class="hidden">L'image n'a pas pu être chargée</span>
         <img height="250" width="400" />
       </div>
-    </main>
+    </template>
+
+    <main></main>
 
     <script src="./app.js"></script>
   </body>

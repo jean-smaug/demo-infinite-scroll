@@ -1,1 +1,3 @@
-# demo-intersection-observer
+# Démo scroll infini
+
+![demo](demo.gif)

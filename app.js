@@ -36,21 +36,21 @@ function renderPicture() {
 }
 
 const initialPicture = renderPicture()
-let observedElement = initialPicture;
+let observedPicture = initialPicture;
 
 const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const picture = renderPicture()
+    const entry = entries[0]
+    
+    if (entry.isIntersecting) {
+        const picture = renderPicture()
 
-            observer.unobserve(observedElement)
-            observedElement = picture
-
-            main.append(picture)
-            observer.observe(observedElement)
-        }
-    })
+        observer.unobserve(observedPicture)
+        observedPicture = picture
+        
+        main.append(observedPicture)
+        observer.observe(observedPicture)
+    }
 })
 
-main.appendChild(initialPicture)
-observer.observe(observedElement)
+main.appendChild(observedPicture)
+observer.observe(observedPicture)

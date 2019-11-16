@@ -1,56 +1,57 @@
-const main = document.querySelector("main")
-const template = document.querySelector("template").content.querySelector("div")
+const main = document.querySelector("main");
+const template = document
+  .querySelector("template")
+  .content.querySelector("div");
 
-function getImageUrl({
-    width,
-    height
-}) {
-    return `https://picsum.photos/${width}/${height}?nocache=${performance.now()}`
+function getImageUrl({ width, height }) {
+  return `https://picsum.photos/${width}/${height}?nocache=${performance.now()}`;
 }
 
 function renderPicture() {
-    const picture = template.cloneNode(true)
-    const image = picture.querySelector("img")
-    const spinner = picture.querySelector(".lds-dual-ring")
-    const errorMessage = picture.querySelector("span")
+  const picture = template.cloneNode(true);
+  const image = picture.querySelector("img");
+  const spinner = picture.querySelector(".lds-dual-ring");
+  const errorMessage = picture.querySelector("span");
 
-    image.src = getImageUrl({
-        width: image.width,
-        height: image.height
-    })
-    image.onload = function () {
-        picture.removeChild(spinner)
-    }
+  image.src = getImageUrl({
+    width: image.width,
+    height: image.height
+  });
+  image.onload = function() {
+    picture.removeChild(spinner);
+  };
 
-    image.onerror = function () {
-        picture.removeChild(spinner)
-        picture.removeChild(image)
-        errorMessage.className = "center error-message"
+  image.onerror = function() {
+    picture.removeChild(spinner);
+    picture.removeChild(image);
+    errorMessage.className = "center error-message";
 
-        setTimeout(function () {
-            main.removeChild(picture)
-        }, 5000)
-    }
+    setTimeout(function() {
+      main.removeChild(picture);
+    }, 5000);
+  };
 
-    return picture
+  return picture;
 }
 
-const initialPicture = renderPicture()
-let observedPicture = initialPicture;
+function appendAndObserve(observer, picture) {
+  main.appendChild(picture);
+  observer.observe(picture);
+}
 
-const observer = new IntersectionObserver(function (entries) {
-    const entry = entries[0]
-    
-    if (entry.isIntersecting) {
-        const picture = renderPicture()
+let observedPicture = renderPicture();
 
-        observer.unobserve(observedPicture)
-        observedPicture = picture
-        
-        main.append(observedPicture)
-        observer.observe(observedPicture)
-    }
-})
+const intersectionObserver = new IntersectionObserver(function(entries) {
+  const entry = entries[0];
 
-main.appendChild(observedPicture)
-observer.observe(observedPicture)
+  if (entry.isIntersecting) {
+    const picture = renderPicture();
+
+    this.unobserve(observedPicture);
+    observedPicture = picture;
+
+    appendAndObserve(this, observedPicture);
+  }
+});
+
+appendAndObserve(intersectionObserver, observedPicture);

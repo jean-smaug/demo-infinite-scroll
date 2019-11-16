@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Demo intersection observer</title>
-    <link rel="stylesheet" href="./spinner.css">
-    <style>
-      .picture {
-        width: 400px;
-        height: 250px;
-        margin: 10px auto;
-        position: relative;
-      }
 
-      .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Demo intersection observer</title>
+  <link rel="stylesheet" href="./spinner.css">
+  <style>
+    .picture {
+      width: 400px;
+      height: 250px;
+      margin: 10px auto;
+      position: relative;
+    }
 
-      .hidden {
-        visibility: hidden;
-        display: none;
-      }
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-      .error-message {
-        text-align: center;
-        font-size: 2rem;
-        font-family: sans-serif;
-        width: 80%;
-      }
-    </style>
-  </head>
-  <body>
-    <template>
-      <div class="picture">
-        <div class="center lds-dual-ring"></div>
-        <span class="hidden">L'image n'a pas pu être chargée</span>
-        <img height="250" width="400" />
-      </div>
-    </template>
+    .hidden {
+      visibility: hidden;
+      display: none;
+    }
 
-    <main></main>
+    .error-message {
+      text-align: center;
+      font-size: 2rem;
+      font-family: sans-serif;
+      width: 80%;
+    }
+  </style>
+</head>
 
-    <script src="./app.js"></script>
-  </body>
+<body>
+  <template>
+    <div class="picture">
+      <div class="center lds-dual-ring"></div>
+      <span class="hidden">L'image n'a pas pu être chargée</span>
+      <img height="250" width="400" />
+    </div>
+  </template>
+
+  <main></main>
+
+  <script src="./app.js"></script>
+</body>
+
 </html>

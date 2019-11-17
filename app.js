@@ -39,19 +39,16 @@ function appendAndObserve(observer, picture) {
   observer.observe(picture);
 }
 
-let observedPicture = renderPicture();
-
 const intersectionObserver = new IntersectionObserver(function(entries) {
   const entry = entries[0];
 
   if (entry.isIntersecting) {
+    this.unobserve(entry.target);
+
     const picture = renderPicture();
-
-    this.unobserve(observedPicture);
-    observedPicture = picture;
-
-    appendAndObserve(this, observedPicture);
+    appendAndObserve(this, picture);
   }
 });
 
-appendAndObserve(intersectionObserver, observedPicture);
+const intialPicture = renderPicture();
+appendAndObserve(intersectionObserver, intialPicture);
